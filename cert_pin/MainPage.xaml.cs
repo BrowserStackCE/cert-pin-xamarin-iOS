@@ -15,7 +15,8 @@ namespace cert_pin
 
             client = new HttpClient(GetInsecureHandler(proxy));
 
-            var req = client.GetAsync("https://self-signed.badssl.com");
+            var req = client.GetAsync("https://my.machine:8000");
+            // var req = client.GetAsync("https://self-signed.badssl.com"); 
 
             req.Wait();
             HttpResponseMessage resp = req.Result;
@@ -41,7 +42,8 @@ namespace cert_pin
                 Console.WriteLine(message.ToString());
                 Console.WriteLine(chain);
                 Console.WriteLine(cert);
-                return cert.Thumbprint == "99C1DAF07C8D69A8A065492DCAAE43C43FF13497";
+                return cert.Thumbprint == "DB7EB953B8299BD860890F3ECC4ECA6342F8D7C2";
+                // return cert.Thumbprint == "99C1DAF07C8D69A8A065492DCAAE43C43FF13497";
             };
             return handler;
         }

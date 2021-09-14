@@ -1,0 +1,12 @@
+{
+  "name": "insecure-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "scripts": {
+	"postinstall": "sudo ./set_hostname.sh"
+  }
+}
