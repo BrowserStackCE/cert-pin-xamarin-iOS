@@ -27,32 +27,41 @@ namespace cert_pin.iOS
         {
             global::Xamarin.Forms.Forms.Init();
             Console.WriteLine(NSProcessInfo.ProcessInfo.Environment.ToString());
-            if (NSProcessInfo.ProcessInfo.Environment["LAUNCH_ENVIRONMENT"] != null && NSProcessInfo.ProcessInfo.Environment["LAUNCH_ENVIRONMENT"].ToString() == "BROWSERSTACK")
-            {
-                Console.WriteLine(NSProcessInfo.ProcessInfo.Environment.ToString());
+            // Console.WriteLine(NSProcessInfo.ProcessInfo.Environment.ToString());
+            // if (NSProcessInfo.ProcessInfo.Environment.ValueForKey((NSString)"LAUNCH_ENVIRONMENT") != null && NSProcessInfo.ProcessInfo.Environment.ValueForKey((NSString)"LAUNCH_ENVIRONMENT").ToString() == "BROWSERSTACK")
+            // {
+                // Console.WriteLine(NSProcessInfo.ProcessInfo.Environment.ToString());
                 LoadApplication(new App(GetProxySettings()));
-            } else
-            {
-                LoadApplication(new App(null));
-            }
+            // } else
+            // {
+            //     LoadApplication(new App(null));
+            // }
             return base.FinishedLaunching(app, options);
         }
 
         public WebProxy GetProxySettings()
         {
-            var settings = CFNetwork.GetSystemProxySettings();
-            Console.WriteLine("Setting" + settings.Dictionary.ToString());
-            var proxyPACURL = settings.ProxyAutoConfigURLString;
-            String fetchedResponse = GetResponseData(proxyPACURL);
-            String proxyHostPortMatch = Regex.Match(fetchedResponse, "(\\d+.\\d+.\\d+.\\d+:\\d+)", RegexOptions.IgnoreCase).ToString();
-            String[] proxyHostPortArray = proxyHostPortMatch.Split(':');
-            var proxyHost = proxyHostPortArray[0];
-            var proxyPort = int.Parse(proxyHostPortArray[1]);
-            Console.WriteLine("proxyPort  " + proxyPort);
-            Console.WriteLine("proxyHost  " + proxyHost);
-            return !string.IsNullOrEmpty(proxyHost) && proxyPort != 0
-                ? new WebProxy($"{proxyHost}:{proxyPort}")
-                : null;
+            try
+            {
+                Console.WriteLine("Attempting to get proxy settings");
+                var settings = CFNetwork.GetSystemProxySettings();
+                Console.WriteLine("Setting" + settings.Dictionary.ToString());
+                var proxyPACURL = settings.ProxyAutoConfigURLString;
+                String fetchedResponse = GetResponseData(proxyPACURL);
+                String proxyHostPortMatch = Regex.Match(fetchedResponse, "(\\d+.\\d+.\\d+.\\d+:\\d+)", RegexOptions.IgnoreCase).ToString();
+                String[] proxyHostPortArray = proxyHostPortMatch.Split(':');
+                var proxyHost = proxyHostPortArray[0];
+                var proxyPort = int.Parse(proxyHostPortArray[1]);
+                Console.WriteLine("proxyPort  " + proxyPort);
+                Console.WriteLine("proxyHost  " + proxyHost);
+                return !string.IsNullOrEmpty(proxyHost) && proxyPort != 0
+                    ? new WebProxy($"{proxyHost}:{proxyPort}")
+                    : null;
+            } catch(Exception e)
+            {
+                Console.WriteLine("Error Occured: " + e.Message + e.Source + e.ToString());
+            }
+            return null;
         }
         public String GetResponseData(string apiUri)
         {
