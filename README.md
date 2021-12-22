@@ -4,8 +4,8 @@ This repo contains an example application on how to pin your mobile native appli
 
 ## Pre-requisites
 
-* .NET Core
-* NodeJS (for backend server)
+* .NET Core >= 5.0
+* NodeJS (for backend server) >= 14.17.0
 
 ## Setup
 
