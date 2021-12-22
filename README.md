@@ -4,7 +4,7 @@ This repo contains an example application on how to pin your mobile native appli
 
 ## Pre-requisites
 
-* .NET Core >= 5.0
+* .NET Core >= 5.0.0
 * NodeJS (for backend server) >= 14.17.0
 
 ## Setup
@@ -19,8 +19,8 @@ This repo contains an example application on how to pin your mobile native appli
 	```
 	This should start the server on port 8000
 
-* Navigate to [https://my.machine:8000](https://my.machine:8000). It should render ><h1>Hello World!</h1>. If it does not, then there is some problem with your installation
+* Navigate to [https://my.machine:8000](https://my.machine:8000). It should render "Hello World!". If it does not, then there is some problem with your installation
 
 * Launch the app on a simulator or build an IPA for your devices
 
-* The application should render a webview showing <h1>Hello World!</h1>
+* The application should render a webview showing "Hello World!"
